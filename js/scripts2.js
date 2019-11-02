@@ -51,6 +51,15 @@ Contact.prototype.fullname = () => {
 // UI logic
 let addressBook = new AddressBook();
 
+function displayContactDetails(addressBookToDisplay) {
+    let contactsList = $("ul#contacts");
+    let htmlForContactInfo = "";
+    addressBookToDisplay.contacts.forEach(function(contact) {
+      htmlForContactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + "</li>";
+    });
+    contactsList.html(htmlForContactInfo);
+}
+
 $(document).ready(function() {
     $("form#new-contact").submit(function(event) {
         event.preventDefault();
