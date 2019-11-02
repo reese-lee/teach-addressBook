@@ -47,3 +47,18 @@ function Contact(firstName, lastName, phoneNumber) {
 Contact.prototype.fullname = () => {
  return this.firstName + " " + this.lastName;
 }
+
+// UI logic
+let addressBook = new AddressBook();
+
+$(document).ready(function() {
+    $("form#new-contact").submit(function(event) {
+        event.preventDefault();
+        let inputtedFirstName = $("input#new-first-name").val();
+        let inputtedLastName = $("input#new-last-name").val();
+        let inputtedPhoneNumber = $("input#new-phone-number").val();
+        let newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber);
+        addressBook.addContact(newContact);
+        console.log(addressBook.contacts);
+    })
+})
