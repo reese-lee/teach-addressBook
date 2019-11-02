@@ -1,18 +1,28 @@
 // Business logic for Address Book
 
+// Business Logic for AddressBook ---------
 function AddressBook() {
     this.contacts = [],
     this.currentId = 0
-}
-
-AddressBook.prototype.addContact = contact => {
-    contactId = this.assignId();
+  }
+  
+  AddressBook.prototype.addContact = function(contact) {
+    contact.id = this.assignId();
     this.contacts.push(contact);
-}
-
-AddressBook.prototype.assignId = () => {
+  }
+  
+  AddressBook.prototype.assignId = function() {
     this.currentId += 1;
-    return this.currentId
+    return this.currentId;
+  }
+
+AddressBook.prototype.findContact = function(id) {
+    for (let i = 0; i < this.contacts.length; i++ ) {
+        if (this.contacts[i].id == id) {
+            return this.contacts[i];
+        }
+    };
+    return false;
 }
 
 // Business logic for Contacts
