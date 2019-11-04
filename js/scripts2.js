@@ -55,15 +55,31 @@ function displayContactDetails(addressBookToDisplay) {
     let contactsList = $("ul#contacts");
     let htmlForContactInfo = "";
     addressBookToDisplay.contacts.forEach(function(contact) {
-      htmlForContactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + "</li>" + "<br>" + "Phone number: " + contact.phoneNumber;
+      htmlForContactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + "</li>";
     });
     contactsList.html(htmlForContactInfo);
 }
 
+function showContact(contactId) {
+    let contact = addressBook.findContact(contactId);
+    $("#show-contact").show();
+    $(".first-name").html(contact.firstName);
+    $(".last-name").html(contact.lastName);
+    $(".phone-number").html(contact.phoneNumber);
+    let buttons = $("#buttons");
+    buttons.empty();
+    buttons.append("<button class='deleteButton' id=" +  + contact.id + ">Delete</button>");
+}
+
 function attachContactListeners() {
     $("ul#contacts").on("click", "li", function() {
-        console.log("The id of this <li> is " + this.id + ".");
-    })
+        showContact(this.id);
+    });
+    $("#buttons").on("click", ".deleteButton", function() {
+        addressBook.deleteContact(this.id);
+        $("#show-contact").hide();
+        displayContactDetails(addressBook);
+    });
 }
 
 $(document).ready(function() {
@@ -73,6 +89,12 @@ $(document).ready(function() {
         let inputtedFirstName = $("input#new-first-name").val();
         let inputtedLastName = $("input#new-last-name").val();
         let inputtedPhoneNumber = $("input#new-phone-number").val();
+
+        // to empty the fields after input
+        $("input#new-first-name").val("");
+        $("input#new-last-name").val("");
+        $("input#new-phone-number").val("");
+
         let newContact = new Contact(inputtedFirstName, inputtedLastName, inputtedPhoneNumber);
         addressBook.addContact(newContact);
         displayContactDetails(addressBook);
